@@ -1,0 +1,91 @@
+<script setup>
+import {onMounted,ref} from 'vue';
+import {useGlobalStore} from "./store/store.js";
+import Header from './components/structure/Header.vue';
+import LeftNav from './components/structure/LeftNav.vue';
+import Footer from './components/structure/Footer.vue';
+
+const store = useGlobalStore()
+
+const isLoggedIn = ref(false);
+
+onMounted(() => {
+	store.logoutIfUserExpired();
+	store.updateViewType();
+	window.addEventListener('resize', store.updateViewType);
+});
+</script>
+
+<style>
+/* 2 Column Content Container */
+.content-container {
+	display: grid;
+	grid-template-columns: 2fr 8fr; /* 2-8 proportionate distribution */
+	gap: 0; /* Adjust the gap size as needed */
+	background:#ddd;
+}
+.content-container > div {
+	padding: 0; /* Adjust the padding inside each column as needed */
+}
+/* Optional: Add background colors or other styling to individual columns */
+.content-container > div:nth-child(1) { } /* Left Nav */
+.content-container > div:nth-child(2) { } /* Content */
+
+.site-container {
+	display: flex;
+	flex-direction: column;
+	height: 100vh; /* Full viewport height */
+}
+
+/* Mobile View */
+@media (max-width: 1299px) {
+	.mobile-content-container {
+		display: block;
+		padding: 0;
+	}
+	.desktop-content-container {
+		display: none;
+	}
+}
+
+/* Desktop View */
+@media (min-width: 1300px) {
+	.mobile-content-container {
+		display: none;
+	}
+	.desktop-content-container {
+		display: block;
+	}
+}
+</style>
+
+<template>
+	<!-- Site Container -->
+	<div class="site-container">
+		<!-- Header -->
+		<Header :isLoggedIn="isLoggedIn"/>
+
+		<!-- Mobile Content -->
+		<div v-if="store.isMobileView" class="mobile-content-container">
+			<!-- Content -->
+			<router-view/>
+		</div>
+
+		<!-- Desktop Content -->
+		<div v-else class="desktop-content-container">
+			<div class="content-container">
+				<!-- Left -->
+				<div class="left_container">
+					<LeftNav/>
+				</div>
+
+				<!-- Content -->
+				<div>
+					<router-view/>
+				</div>
+			</div>
+		</div>
+
+		<Footer/>
+	</div>
+</template>
