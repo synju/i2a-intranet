@@ -1,27 +1,28 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+	use Illuminate\Database\Migrations\Migration;
+	use Illuminate\Database\Schema\Blueprint;
+	use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+	return new class extends Migration {
+		/**
+		 * Run the migrations.
+		 */
+		public function up():void {
+			Schema::create('sessions', function(Blueprint $table) {
+				$table->string('id')->primary();               // Session ID
+				$table->foreignId('user_id')->nullable();      // Related User ID (if logged in)
+				$table->string('ip_address', 45)->nullable();  // IP Address of the session
+				$table->text('user_agent')->nullable();        // Browser User Agent
+				$table->text('payload');                       // Session data
+				$table->integer('last_activity');              // Last activity timestamp
+			});
+		}
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('sessions');
-    }
-};
+		/**
+		 * Reverse the migrations.
+		 */
+		public function down():void {
+			Schema::dropIfExists('sessions');
+		}
+	};

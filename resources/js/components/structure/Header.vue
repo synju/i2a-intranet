@@ -31,7 +31,7 @@ onMounted(() => {
 			<!-- Navbar Left -->
 			<ul class="navbar-nav">
 				<!-- Hide / Display Sidebar -->
-				<li class="nav-item">
+				<li class="nav-item"  v-if="store.getUser() !== null">
 					<a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
 						<i class="bi bi-list"></i>
 					</a>
@@ -39,7 +39,7 @@ onMounted(() => {
 
 				<!-- Home -->
 				<li class="nav-item d-none d-md-block">
-					<a href="#" class="nav-link">Home</a>
+					<router-link to="/" class="nav-link">Home</router-link>
 				</li>
 			</ul>
 
@@ -226,7 +226,7 @@ onMounted(() => {
 				<template v-else>
 					<!-- Login -->
 					<li class="nav-item d-none d-md-block">
-						<a href="#" class="nav-link">Sign in</a>
+						<router-link to="login" class="nav-link">Login</router-link>
 					</li>
 				</template>
 

@@ -31,7 +31,7 @@
 		<Header/>
 
 		<!-- Sidebar -->
-		<Sidebar/>
+		<Sidebar  v-if="store.getUser() !== null"/>
 
 		<!-- App Main -->
 		<main class="app-main">
